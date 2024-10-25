@@ -1,0 +1,31 @@
+Derive calculations based on Definition 1.24 regarding β-contracting and β-reducing in λ-calculus.
+β-Contracting Example
+Consider a λ-term: P=(λx.(x+1))3
+Here,(λx.(x+1))is a λ-abstraction and 3 is an argument.
+
+1、Identify the β-redex:
+The term (λx.(x+1))3 is a β-redex.
+
+2、Perform the contraction:
+We replace the redex with its contractum[3/x](x+1), 
+which means substituting x with 3: [3/x](x+1)=3+1
+
+3、Resulting term:
+The result of this contraction is:P′=3+1
+We can denote this as P ▷1β P ′ 
+
+β-Reducing Example
+Next, let's see how to β-reduce P to another term Q.
+Continuing from the previous result:
+1、Evaluate the expression further:
+From  P' = 3 + 1，we can compute:Q=4
+
+2、From P′ to Q:
+The expression 3 + 1 reduces directly to 4, which we can express as:P'→Q(normal evaluation)
+This indicates that P can reduce to Q through a series of β-contractions and possibly other calculations.
+
+Summary
+Through this process, we started with the β-redex P, contracted it to P′ and subsequently ended up with Q. This illustrates how we use β-reduction to simplify terms in λ-calculus, capturing the essence of variable substitutions and function applications.
+From these steps, you can observe the mechanism of reducing terms in λ-calculus:
+P ▷1β P′  (one-step reduction)
+P ▷β P′  (finite series reduction)
