@@ -1,0 +1,99 @@
+work2(2024.10.25) by ShenYiyong
+To implement the syntactic properties of λ-calculus terms—specifically the properties of size, height, and width—Define the `Term` class first, and then implement the three functions: `size`, `height`, and `width`. The provided definitions have some issues with indentation, syntax, and structure.
+### Implementation
+[
+class Term:
+    def __init__(self, kind, *args):
+        self.kind = kind  # kind can be "atom", "application", or "abstraction"
+        self.args = args  # args hold the components of the term (e.g. for applications and abstractions)
+
+    def __getitem__(self, index):
+        return self.args[index]
+
+    def __repr__(self):
+        if self.kind == "atom":
+            return "Atom"
+        elif self.kind == "application":
+            return f"({self.args[0]} {self.args[1]})"
+        elif self.kind == "abstraction":
+            return f"λ{self.args[0]}.{self.args[1]}"
+        return "Unknown"
+
+# Function to calculate size
+def size(t: Term) -> int:
+    if not isinstance(t, Term):
+        raise TypeError("size() error! Term is expected")
+    
+    if t.kind == "atom":
+        return 1
+    elif t.kind == "application":
+        return size(t[0]) + size(t[1]) + 1
+    elif t.kind == "abstraction":
+        return size(t[1]) + 1
+
+# Function to calculate height
+def height(t: Term) -> int:
+    if not isinstance(t, Term):
+        raise TypeError("height() error! Term is expected")
+    
+    if t.kind == "atom":
+        return 1
+    elif t.kind == "application":
+        return max(height(t[0]), height(t[1])) + 1
+    elif t.kind == "abstraction":
+        return height(t[1]) + 1
+
+# Function to calculate width
+def width(t: Term) -> int:
+    if not isinstance(t, Term):
+        raise TypeError("width() error! Term is expected")
+    
+    if t.kind == "atom":
+        return 1
+    elif t.kind == "application":
+        return width(t[0]) + width(t[1])
+    elif t.kind == "abstraction":
+        return width(t[1])
+
+# Example Usage
+# Defining some terms
+atom1 = Term("atom")  # Represents an atom
+atom2 = Term("atom")  # Another atom
+app = Term("application", atom1, atom2)  # Represents (atom1 atom2)
+abst = Term("abstraction", "x", app)  # Represents λx.(atom1 atom2)
+
+# Calculating properties
+print("Size of abst:", size(abst))        # Should return the size of the abstraction
+print("Height of abst:", height(abst))    # Should return the height of the abstraction
+print("Width of abst:", width(abst))      # Should return the width of the abstraction
+]
+
+1、Term Class:
+The Term class represents a λ-term that can be an atom, application, or abstraction.
+The __init__ method initializes the kind of term and its arguments.
+The __getitem__ method allows accessing the arguments using indexing (e.g., t[0]).
+The __repr__ method is implemented for better string representation of the terms.
+
+2、Size Function:
+The size function calculates the size of a term based on its type.
+For atoms, it returns 1.
+For applications, it combines the sizes of the two terms plus 1.
+For abstractions, it calculates the size of the body plus 1.
+
+3、Height Function:
+The height function calculates the height of a term based on its structure.
+For atoms, it returns 1.
+For applications, it returns the maximum height of the two terms plus 1.
+For abstractions, it returns the height of the body plus 1.
+
+4、Width Function:
+The width function calculates the width of a term.
+For atoms, it returns 1.
+For applications, it sums the widths of the two terms.
+For abstractions, it returns the width of the body.
+
+5、Example Usage
+Several terms are defined: two atoms, one application of these atoms, and one abstraction of the application.
+The properties of size, height, and width are calculated and printed for the abstraction.
+Output：
+When running the example code, Will see the calculated size, height, and width of the defined term.
